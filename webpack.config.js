@@ -34,6 +34,6 @@ module.exports = {
   
   plugins: [
     new Dotenv(),
-    new JavaScriptObfuscator({ rotateUnicodeArray: true }, [])
+    // new JavaScriptObfuscator({ rotateUnicodeArray: true }, [])
   ]
 };

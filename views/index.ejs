@@ -17,9 +17,6 @@
       <main class="main">
 
         <div id="start_wrap" class="start_wrap"></div>
-
-        <div id="blocker" class="blocker"><div class="blocker_contents">前のスクリーンを見て<br>説明を聞いてください</div></div>
-
         <div id="editor" class="editor">
 
           <div class="editor_side">
@@ -52,15 +49,6 @@
               <div class="editor_main_area_answer">
                 <div id="answer_contents" class="editor_main_area_answer_contents"></div>
                 <button id="button_submit" class="button_submit">完成</button>
-                <button id="problem2" class="button_next" onclick="problemBlocker(2)">次の問題へ</button>
-                <button id="problem3" class="button_next" onclick="problemBlocker(3)">次の問題へ</button>
-                <button id="problem4" class="button_next" onclick="problemBlocker(4)">次の問題へ</button>
-                <button id="problem5" class="button_next" onclick="problemBlocker(5)">次の問題へ</button>
-                <button id="problem6" class="button_next" onclick="problemBlocker(6)">次の問題へ</button>
-                <button id="problem7" class="button_next" onclick="problemBlocker(7)">次の問題へ</button>
-                <button id="problem8" class="button_next" onclick="problemBlocker(8)">次の問題へ</button>
-                <button id="problem9" class="button_next" onclick="problemBlocker(9)">次の問題へ</button>
-                <button id="problem10" class="button_next" onclick="problemBlocker(10)">次の問題へ</button>
               </div>
             </div>
           </div>
@@ -77,6 +65,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
     <script src="https://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <script>const problems = JSON.parse('<%- firebaseData %>');</script>
     <script type="module" src="/js/main.js"></script>
 
 </body>

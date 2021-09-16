@@ -1,27 +1,24 @@
-import { firebaseConfig, problem } from './config.js';
+import { firebaseConfig } from './config.js';
 
 /* 基本設定 */
 let db;
-let user = {};
 let problemNumber = 0;
 
 /* 初期化 */
 const init = () => {
   initFirebase(); // firebase初期化
-  onSetFirebaseListener(); // Firebaseの値の変更を検知
-  createProblem(problem[problemNumber]); // 問題1
-  
-  // ボタンイベント
+  initForm(); // フォーム生成
+  createProblem(problems[problemNumber]); // 問題1
 
-  // リセット
-  document.getElementById('button_reset').addEventListener('click', () => {
-    initEditorList(problem[problemNumber].item);
-    initEditor(problem[problemNumber].area);
+  // ボタンイベント
+  document.getElementById('button_reset').addEventListener('click', () => { // リセット
+    initEditorList(problems[problemNumber].item);
+    initEditor(problems[problemNumber].area);
   });
   document.getElementById('button_help').addEventListener('click', onClickHelp); // ヘルプ
   document.getElementById('button_submit').addEventListener('click', checkAnswer); // 解答を確認
-  document.getElementById('blocker2').addEventListener('click', events.clickBlocker);                        // ブロッカークリックイベント
-  document.getElementById('modal_close').addEventListener('click', events.clickBlocker);                    // モーダル閉クリックイベント
+  document.getElementById('blocker2').addEventListener('click', events.clickBlocker); // ブロッカークリックイベント
+  document.getElementById('modal_close').addEventListener('click', events.clickBlocker); // モーダル閉クリックイベント
 }
 
 /* firebase初期化 */
@@ -31,59 +28,7 @@ const initFirebase = () => {
   db = firebase.firestore();
 }
 
-/* Firebaseの値の変更を検知 */
-const onSetFirebaseListener = () => {
-  db.collection('controls').doc('main').onSnapshot(doc => {
-    const data = doc.data();
-
-    // 更新判定
-    if (data.start) {
-      initForm();
-      initEvents();
-    } else {
-      createMessage('start_wrap', '現在この講義は開催されていません');
-    }
-
-    // Blocker表示判定
-    if (data.pause) {
-      document.getElementById('blocker').classList.add('is-show');
-    } else {
-      document.getElementById('blocker').classList.remove('is-show');
-    }
-
-    if (data.problem10) {
-      problemNumber = 10 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem9) {
-      problemNumber = 9 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem8) {
-      problemNumber = 8 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem7) {
-      problemNumber = 7 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem6) {
-      problemNumber = 6 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem5) {
-      problemNumber = 5 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem4) {
-      problemNumber = 4 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem3) {
-      problemNumber = 3 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    } else if (data.problem2) {
-      problemNumber = 2 - 1;
-      createProblem(problem[problemNumber]); // 問題1
-    }
-    
-  });
-}
-
-/* 受付フォーム生成 */
+/* フォーム生成 */
 const initForm = () => {
   const form = document.createElement('form');
   const div = document.createElement('div');
@@ -100,16 +45,13 @@ const initForm = () => {
   form.appendChild(div);
 
   label.setAttribute('for', 'number');
-  label.innerText = '番号:';
+  label.innerText = 'ニックネーム:';
   div.appendChild(label);
 
-  input.setAttribute('type', 'number');
+  input.setAttribute('type', 'text');
   input.setAttribute('id', 'start_number');
   input.setAttribute('class', 'number_input');
   input.setAttribute('name', 'start_number');
-  input.setAttribute('min', '1');
-  input.setAttribute('max', '200');
-  input.setAttribute('min', '1');
   input.focus();
   div.appendChild(input);
 
@@ -120,46 +62,12 @@ const initForm = () => {
   
   parentDiv.innerHTML = '';
   parentDiv.appendChild(form);
-}
-
-/* イベント */
-const initEvents = () => {
 
   // 開始
   document.getElementById('start_button').addEventListener('click', () => {
-    const value = Number(document.start.start_number.value);
-
-    // 値チェック
-    if (!value || value <= 0 || value > 200) {
-      alert('正しい番号を入力してください');
-      document.start.number.focus();
-      return;
-    }
-
-    // 表示切り替え
     document.getElementById('editor').style.display = 'grid';
     document.getElementById('start_wrap').style.display = 'none';
-    
-    // firebaseに追加
-    db.collection('users').add({
-      id: value,
-      page: 0,
-      help: false
-    }).then(docRef => {
-      user.docId = docRef.id;
-    }).catch(onError);
   })
-}
-
-/* p要素作成 */
-const createMessage = (div, message) => {
-  const element = document.getElementById(div);
-  const p = document.createElement('p');
-
-  p.innerText = message;
-  p.setAttribute('class', 'start_message');
-  element.innerText = '';
-  element.appendChild(p);
 }
 
 /* エディタ初期化 */
@@ -269,9 +177,9 @@ const checkAnswer = () => {
 
   console.log(result);
 
-  for (let j = 0; j < problem[problemNumber].answer.length; j++) {
-    console.log(result == problem[problemNumber].answer[j]);
-    if (result == problem[problemNumber].answer[j]) answer = true;
+  for (let j = 0; j < problems[problemNumber].answer.length; j++) {
+    console.log(result == problems[problemNumber].answer[j]);
+    if (result == problems[problemNumber].answer[j]) answer = true;
   }
 
   answer ?  isAnswerTrue() : isAnswerFalse();
@@ -282,7 +190,8 @@ const isAnswerTrue = () => {
   document.getElementById('modal_text').innerText = '正解！！！';
   document.getElementById('blocker2').classList.toggle('is-show');
   document.getElementById('modal').classList.toggle('is-show');
-  db.collection('users').doc(user.docId).update({ page: problemNumber + 1 }).catch(onError); // Firebase更新
+  problemNumber++; // 次の番号
+  createProblem(problems[problemNumber]);
 };
 
 const isAnswerFalse = () => {
@@ -294,30 +203,11 @@ const isAnswerFalse = () => {
 
 /* ヘルプ */
 const onClickHelp = () => {
-  const time = 10000;
-
-  console.log('help');
-  db.collection('users').doc(user.docId).update({ help: true }).catch(onError); // Firebase更新
-
-  setTimeout(() => {
-    db.collection('users').doc(user.docId).update({ help: false }).catch(onError); // Firebase更新
-  }, time);
 }
 
 const onError = error => {
   console.log(`更新に失敗しました (${error})`);
 };
-
-function problemBlocker(number) {
-  console.log(number);
-
-  // 次の問題がある時
-  if (problem[problemNumber + 1]) {
-    problemNumber++;
-    createProblem(problem[problemNumber]); // 次の問題
-    db.collection('users').doc(user.docId).update({ page: problemNumber }).catch(onError); // Firebase更新
-  }
-}
 
 const events = {
   clickBlocker(e) { // ブロッカークリック時
