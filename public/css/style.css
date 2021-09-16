@@ -288,6 +288,9 @@ button:hover {
   transform: translate(-50%, -50%);
   position: absolute;
 }
+.modal_alert.is-false {
+  color: rgb(43, 64, 251);
+}
 .modal_close {
   top: 10px;
   right: 10px;

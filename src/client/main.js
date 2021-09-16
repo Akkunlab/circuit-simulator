@@ -278,13 +278,18 @@ const checkAnswer = () => {
 };
 
 const isAnswerTrue = () => {
+  document.getElementById('modal_alert').classList.toggle('is-false');
+  document.getElementById('modal_text').innerText = '正解！！！';
   document.getElementById('blocker2').classList.toggle('is-show');
   document.getElementById('modal').classList.toggle('is-show');
   db.collection('users').doc(user.docId).update({ page: problemNumber + 1 }).catch(onError); // Firebase更新
 };
 
 const isAnswerFalse = () => {
-  alert('不正解');
+  document.getElementById('modal_alert').classList.add('is-false');
+  document.getElementById('modal_text').innerText = '不正解！';
+  document.getElementById('blocker2').classList.toggle('is-show');
+  document.getElementById('modal').classList.toggle('is-show');
 };
 
 /* ヘルプ */

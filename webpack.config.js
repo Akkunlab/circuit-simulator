@@ -4,11 +4,14 @@ require('dotenv').config();
 
 module.exports = {
     
-  entry: `./src/client/main.js`,
+  entry: {
+    "main": "./src/client/main.js",
+    "admin": "./src/client/admin.js"
+  },
   
   output: {
     path: `${__dirname}/public/js`,
-    filename: "main.js"
+    filename: "[name].js"
   },
 
   mode: process.env.MODE,
