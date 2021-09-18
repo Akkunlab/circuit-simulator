@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
 var apiAddUserRouter = require('./routes/apiAddUser');
 var apiGetUserRouter = require('./routes/apiGetUser');
 var apiAddDataRouter = require('./routes/apiAddData');
@@ -25,7 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // router
 app.use('/', indexRouter);
-app.use(`/${process.env.ADMIN_URL}`, adminRouter);
 
 // api
 app.use('/api/adduser', apiAddUserRouter);

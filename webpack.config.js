@@ -5,8 +5,7 @@ require('dotenv').config();
 module.exports = {
     
   entry: {
-    "main": "./src/client/main.js",
-    "admin": "./src/client/admin.js"
+    "main": "./src/client/main.js"
   },
   
   output: {

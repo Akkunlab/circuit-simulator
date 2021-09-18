@@ -1,5 +1,3 @@
-import { firebaseConfig } from './config.js';
-
 /* 基本設定 */
 let user = {
   current: 0
@@ -8,7 +6,6 @@ let cookieArray = [];
 
 /* 初期化 */
 const init = () => {
-  initFirebase(); // firebase初期化
   initUser(); // ユーザ初期化
 
   // ボタンイベント
@@ -20,13 +17,6 @@ const init = () => {
   document.getElementById('button_submit').addEventListener('click', checkAnswer); // 解答を確認
   document.getElementById('blocker2').addEventListener('click', events.clickBlocker); // ブロッカークリックイベント
   document.getElementById('modal_close').addEventListener('click', events.clickBlocker); // モーダル閉クリックイベント
-}
-
-/* firebase初期化 */
-const initFirebase = () => {
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-  db = firebase.firestore();
 }
 
 /* ユーザ初期化 */
