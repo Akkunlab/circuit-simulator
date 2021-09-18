@@ -19,7 +19,7 @@ router.post('/', function (req, res, next) {
   res.header('Content-Type', 'application/json; charset=utf-8')
 
   db.collection('users').add(addData).then(() => {
-    res.send({ status: "Succeed", id: hash, name: name });
+    res.send({ status: "Succeed", id: hash });
   }).catch(() => {
     res.send({ status: "failed" });
   });

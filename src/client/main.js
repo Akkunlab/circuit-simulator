@@ -1,15 +1,15 @@
 import { firebaseConfig } from './config.js';
 
 /* 基本設定 */
-let db;
 let user = {
   current: 0
 };
+let cookieArray = [];
 
 /* 初期化 */
 const init = () => {
   initFirebase(); // firebase初期化
-  initUser();
+  initUser(); // ユーザ初期化
 
   // ボタンイベント
   document.getElementById('button_reset').addEventListener('click', () => { // リセット
@@ -31,7 +31,7 @@ const initFirebase = () => {
 
 /* ユーザ初期化 */
 const initUser = async() => {
-  const cookieArray = getCookieArray();
+  cookieArray = getCookieArray();
 
   if (cookieArray.id) { // ある場合
     const { data } = await post('/api/getuser', { id: cookieArray.id });
@@ -42,7 +42,7 @@ const initUser = async() => {
   } else {
     initForm(); // フォーム生成
   }
-  
+
   createProblem(problems[user.current]);
 }
 
@@ -207,13 +207,15 @@ const checkAnswer = () => {
   answer ?  isAnswerTrue() : isAnswerFalse();
 };
 
-const isAnswerTrue = () => {
+const isAnswerTrue = async() => {
   document.getElementById('modal_alert').classList.toggle('is-false');
   document.getElementById('modal_text').innerText = '正解！！！';
   document.getElementById('blocker2').classList.toggle('is-show');
   document.getElementById('modal').classList.toggle('is-show');
   user.current++; // 次の番号
   createProblem(problems[user.current]);
+
+  await post('/api/adddata', { id: cookieArray.id, data: { current: user.current } });
 };
 
 const isAnswerFalse = () => {
@@ -226,10 +228,6 @@ const isAnswerFalse = () => {
 /* ヘルプ */
 const onClickHelp = () => {
 }
-
-const onError = error => {
-  console.log(`更新に失敗しました (${error})`);
-};
 
 const events = {
   clickBlocker(e) { // ブロッカークリック時
