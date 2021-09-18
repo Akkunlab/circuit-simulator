@@ -129,10 +129,34 @@ const initEditor = item => {
   // ドラッグ設定
   $('.editor_item').draggable({
     snap: '.answer_contents_grid',
-    snapMode: 'inner'
-    /*stop: (event, ui) => {
-      console.log(ui);
-    }*/
+    snapMode: 'inner',
+    stop: (event) => {
+      $(event.target).remove();
+    }
+  });
+
+  $(".answer_contents_grid").droppable({
+    drop: (event, ui) => {
+      const cloned = ui.draggable.clone();
+
+      cloned.attr('class', 'editor_item');
+
+      // ドラッグ設定
+      cloned.draggable({
+        snap: '.answer_contents_grid',
+        snapMode: 'inner',
+        stop: (event, ui) => {
+          $(event.target).remove();
+        }
+      });
+
+      cloned.css({
+        "left": 0,
+        "top": 0
+      });
+
+      $(event.target).html(cloned);
+    }
   });
 }
 
@@ -225,32 +249,25 @@ const getItemColor = name => {
 
 /* 解答を確認 */
 const checkAnswer = () => {
-  let rect, top, left, itemName;
-  const children = document.getElementById('editor_item_list').children;
-  const unit0 = { x: 503, y: 80 }; // 基準点
-  const unitSize = 150; // 1マスのサイズ
+  let name, top, left;
+  const grid = document.getElementsByClassName('answer_contents_grid');
   let answer = false;
   let result = '';
 
-  for (let i = 0; i < children.length; i++) {
-    itemName = children[i].getAttribute('name');
-    rect = children[i].getBoundingClientRect();
-    top = Math.round((rect.top + window.pageYOffset - unit0.y) / unitSize);
-    left = Math.round((rect.left + window.pageXOffset - unit0.x) / unitSize);
+  for (let i = 0; i < grid.length; i++) {
+    top = Math.floor(i / 6) + 1;
+    left = (i % 6) + 1;
 
-    if (top <= 0 || left <= 0) continue;
-
-    //console.log((rect.left + window.pageXOffset - unit0.x) / unitSize);
-    //console.log(top, left);
-
-    //console.log(problem[user.current].answer, `${itemName}${top}${left}`);
-    result += `${itemName}${top}${left}`;
+    if (grid[i].firstChild) {
+      name = grid[i].firstChild.getAttribute("name");
+      result += `${name}${top}${left}`;
+    }
   }
 
-  console.log(result);
+  // console.log(result);
 
   for (let j = 0; j < problems[user.current].answer.length; j++) {
-    console.log(result == problems[user.current].answer[j]);
+    // console.log(result == problems[user.current].answer[j]);
     if (result == problems[user.current].answer[j]) answer = true;
   }
 
