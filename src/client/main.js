@@ -13,9 +13,11 @@ const init = () => {
     initEditorList(problems[user.current].item);
     initEditor(problems[user.current].area);
   });
+  document.getElementById('button_next').addEventListener('click', onClickNext); // 次へ
+  document.getElementById('button_replay').addEventListener('click', onClickReplay); // もう一度
   document.getElementById('button_help').addEventListener('click', onClickHelp); // ヘルプ
   document.getElementById('button_submit').addEventListener('click', checkAnswer); // 解答を確認
-  document.getElementById('blocker2').addEventListener('click', events.clickBlocker); // ブロッカークリックイベント
+  document.getElementById('blocker').addEventListener('click', events.clickBlocker); // ブロッカークリックイベント
   document.getElementById('modal_close').addEventListener('click', events.clickBlocker); // モーダル閉クリックイベント
 }
 
@@ -198,31 +200,45 @@ const checkAnswer = () => {
 };
 
 const isAnswerTrue = async() => {
-  document.getElementById('modal_alert').classList.toggle('is-false');
-  document.getElementById('modal_text').innerText = '正解！！！';
-  document.getElementById('blocker2').classList.toggle('is-show');
+  document.getElementById('modal_text_AC').style.display = 'block';
+  document.getElementById('modal_text_WA').style.display = 'none';
+  document.getElementById('blocker').classList.toggle('is-show');
   document.getElementById('modal').classList.toggle('is-show');
-  user.current++; // 次の番号
-  createProblem(problems[user.current]);
-
-  await post('/api/adddata', { id: cookieArray.id, data: { current: user.current } });
+  document.getElementById('modal_button').style.display = 'flex';
 };
 
 const isAnswerFalse = () => {
-  document.getElementById('modal_alert').classList.add('is-false');
-  document.getElementById('modal_text').innerText = '不正解！';
-  document.getElementById('blocker2').classList.toggle('is-show');
+  document.getElementById('modal_text_AC').style.display = 'none';
+  document.getElementById('modal_text_WA').style.display = 'block';
+  document.getElementById('blocker').classList.toggle('is-show');
   document.getElementById('modal').classList.toggle('is-show');
+  document.getElementById('modal_button').style.display = 'none';
 };
 
 /* ヘルプ */
 const onClickHelp = () => {
 }
 
+/* 次へ */
+const onClickNext = async() => {
+  document.getElementById('blocker').classList.toggle('is-show');
+  document.getElementById('modal').classList.toggle('is-show');
+  user.current++;
+  createProblem(problems[user.current]);
+  await post('/api/adddata', { id: cookieArray.id, data: { current: user.current } });
+}
+
+/* もう一度 */
+const onClickReplay = async() => {
+  document.getElementById('blocker').classList.toggle('is-show');
+  document.getElementById('modal').classList.toggle('is-show');
+  createProblem(problems[user.current]);
+}
+
 const events = {
   clickBlocker(e) { // ブロッカークリック時
     if (e.target.tagName === 'DIV' || e.target.tagName === 'SPAN') {
-      document.getElementById('blocker2').classList.toggle('is-show');
+      document.getElementById('blocker').classList.toggle('is-show');
       document.getElementById('modal').classList.toggle('is-show');
     }
   }

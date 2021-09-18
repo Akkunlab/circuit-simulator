@@ -40,16 +40,15 @@ button, label {
   cursor: pointer;
 }
 svg {
-  width: 24px;
-  height: 24px;
+  width: 48px;
+  height: 48px;
   vertical-align: middle;
   fill: #fff;
-  stroke: #fff;
 }
 button {
   font-size: 1.6rem;
   font-weight: 700;
-  padding: 8px 40px;
+  padding: 3px 40px;
   border-radius: var(--item-border-radius);
   border: 1px solid var(--border-color);
   color: var(--item-color);
@@ -111,26 +110,6 @@ button:hover {
   padding: 20px 50px;
   font-size: 3rem;
   font-weight: 700;
-}
-
-/* Blocker */
-.blocker {
-  width: 100vw;
-  height: 100vh;
-  background: var(--item-color);
-  display: none;
-  z-index: 1000;
-}
-.blocker.is-show {
-  display: block;
-}
-.blocker_contents {
-  top: 50%;
-	left: 50%;
-  position: absolute;
-  font-size: 5rem;
-  font-weight: 700;
-	transform: translate(-50%, -50%);
 }
 
 /* Editor */
@@ -207,18 +186,6 @@ button:hover {
   font-size: 1.5em;
   position: absolute;
 }
-.button_next {
-  right: 20px;
-  bottom: 20px;
-  width: 210px;
-  height: 80px;
-  font-size: 1.5em;
-  position: absolute;
-  display: none;
-}
-.button_next.is-show {
-  display: block;
-}
 .editor_item_list_title {
   margin: 0;
   padding: 10px;
@@ -258,7 +225,7 @@ button:hover {
 /*------------------------------------
   Blocker
 ------------------------------------*/
-.blocker2 {
+.blocker {
   top: 0;
   left: 0;
   width: 100vw;
@@ -275,23 +242,28 @@ button:hover {
   border-radius: var(--section-border-radius);
   background: var(--background-color);
   box-shadow: 0 1px 2px 0 var(--border-color);
-  z-index: 100001;
-}
-.modal_alert {
-  padding: 0 30px;
-  border-radius: var(--item-border-radius);
-  font-size: 2em;
-  font-weight: 700;
-  color: rgb(255, 66, 66);
-  background: var(--modal-green);
-}
-.modal, .modal_alert {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100001;
 }
-.modal_alert.is-false {
+.modal_alert {
+  font-size: 2em;
+  font-weight: 700;
+  background: var(--modal-green);
+  border-radius: var(--item-border-radius);
+  transform: translate(-40%, -50%);
+  position: absolute;
+  top: 40%;
+  left: 50%;
+}
+.modal_text_AC {
+  color: rgb(255, 66, 66);
+}
+.modal_text_WA {
   color: rgb(43, 64, 251);
 }
 .modal_close {
@@ -304,44 +276,27 @@ button:hover {
   cursor: pointer;
   color: var(--cross-mark-color);
 }
-.modal_title {
-  margin: 0 0 20px;
-}
-.modal_content {
-  height: 191px;
-  margin-bottom: 20px;
-  background: var(--background-color);
-}
-.modal_code_block {
-  height: 100%;
-  margin: 10px 0;
-  overflow: scroll;
-}
-.modal_code {
-  text-align: left;
-  display: block;
-}
-.modal_star {
-  padding: 24px 0;
+.modal_button {
+  margin-top: 200px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
-.modal_star_item {
-  margin: 0 10px;
-}
-.modal_star_level {
-  margin:10px 0;
-  font-size: 1.6rem;
-  font-weight: 700;
+.modal_button > .button_next,
+.modal_button > .button_replay {
+  right: 20px;
+  bottom: 20px;
+  width: 150px;
+  height: 70px;
+  font-size: 1.5em;
 }
 
 /* animation */
-.blocker2, .modal {
+.blocker, .modal {
   opacity: 0;
   visibility: hidden;
   transition: .3s;
 }
-.blocker2.is-show, .modal.is-show {  
+.blocker.is-show, .modal.is-show {  
   opacity: 1;
   visibility: visible;
 }
