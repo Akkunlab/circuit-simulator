@@ -57,6 +57,7 @@ button {
   outline: none;
   box-sizing: border-box;
   color: #fff;
+  transition: .3s;
 }
 button:hover {
   background: var(--button-hover-color);
@@ -220,6 +221,18 @@ button:hover {
 }
 .menu > button {
   margin: 0 3px;
+}
+.menu > .button_help {
+  background: #2C96DD;
+}
+.menu > .button_help:hover {
+  background: rgb(102, 171, 218);
+}
+.menu > .button_reset {
+  background: #dbb714;
+}
+.menu > .button_reset:hover {
+  background: #e9d061;
 }
 
 /*------------------------------------
