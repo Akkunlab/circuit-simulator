@@ -7,7 +7,7 @@ let problemNumber = 0;
 /* 初期化 */
 const init = () => {
   initFirebase(); // firebase初期化
-  initForm(); // フォーム生成
+  initUser();
   createProblem(problems[problemNumber]); // 問題1
 
   // ボタンイベント
@@ -26,6 +26,18 @@ const initFirebase = () => {
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
   db = firebase.firestore();
+}
+
+/* ユーザ初期化 */
+const initUser = () => {
+  const cookieArray = getCookieArray();
+
+  if (cookieArray.id) { // ある場合
+    document.getElementById('editor').style.display = 'grid';
+    document.getElementById('start_wrap').style.display = 'none';
+  } else {
+    initForm(); // フォーム生成
+  }
 }
 
 /* フォーム生成 */
@@ -64,9 +76,13 @@ const initForm = () => {
   parentDiv.appendChild(form);
 
   // 開始
-  document.getElementById('start_button').addEventListener('click', () => {
+  document.getElementById('start_button').addEventListener('click', async() => {
     document.getElementById('editor').style.display = 'grid';
     document.getElementById('start_wrap').style.display = 'none';
+    
+    const name = document.getElementById('start_number').value;
+    const data = await post('/api/adduser', { name });
+    createCookie('id', data.id, 7); // Cookie作成
   })
 }
 
@@ -216,6 +232,44 @@ const events = {
       document.getElementById('modal').classList.toggle('is-show');
     }
   }
+}
+
+/* データをPOST */
+const post = async(url, data) => {
+  const param  = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    body: JSON.stringify(data)
+  };
+  const response = await fetch("/api/adduser", param);
+
+  return response.json();
+}
+
+/* Cookie配列生成 */
+const getCookieArray = () => {
+  let data;
+  const array = [];
+
+  if (document.cookie) {
+      const tmp = document.cookie.split('; ');
+
+      for(let i = 0; i < tmp.length; i++) {
+          data = tmp[i].split('=');
+          array[data[0]] = decodeURIComponent(data[1]);
+      }
+  }
+
+  return array;
+}
+
+/* Cookie作成 */
+const createCookie = (name, value, days) => {
+  const expire = new Date(); // 有効期限
+  expire.setTime( expire.getTime() + 1000 * 3600 * 24 * days);
+  document.cookie = `${name}=${value}; expires=${expire.toUTCString()}`;
 }
 
 init(); 
