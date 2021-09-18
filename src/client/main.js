@@ -122,6 +122,8 @@ const initEditorList = item => {
     div.setAttribute('class', 'editor_item');
     div.setAttribute('name', item[i]);
     div.style.backgroundImage = `url(${getItemURL(item[i])})`;
+    div.style.border = `solid 3px ${getItemColor(item[i])}`;
+    console.log(div.style.border);
     parentDiv.appendChild(div);
   }
 }
@@ -163,6 +165,37 @@ const getItemURL = name => {
   }
 
   return `../img/${url}`;
+}
+
+/* アイテムの色を取得 */
+const getItemColor = name => {
+  let color;
+
+  switch (name) {
+    case 'R':
+    case 'Rr': color = '#f38e71'; break;
+    case 'V':
+    case 'Vr': color = '#6e97ff'; break;
+    case 'L':
+    case 'Lr':
+    case 'light':
+    case 'lightr': color = '#ffd455'; break;
+    case 'S':
+    case 'Sr': color = '#77b7b9'; break;
+    case 'l':
+    case 'lr':
+    case 'l1':
+    case 'l2':
+    case 'l3':
+    case 'l4':
+    case 'l5':
+    case 'l6':
+    case 'l7':
+    case 'l8': color = '#aa7355'; break;
+    default: break;
+  }
+
+  return color;
 }
 
 /* 解答を確認 */

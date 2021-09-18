@@ -177,6 +177,7 @@ button:hover {
   box-sizing: border-box;
   border: dashed 1px gray;
   background: var(--background-color);
+  /* box-shadow: 0 0 20px var(--button-color); */
   background-size: contain;
 }
 .button_submit {
@@ -204,7 +205,7 @@ button:hover {
   cursor: move;
   background: var(--background-color);
   background-size: contain;
-  border: dashed 1px gray;
+  border: dashed 1px rgb(246, 147, 107);
   box-sizing: border-box;
   z-index: 10000;
 }
