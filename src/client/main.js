@@ -13,6 +13,7 @@ const init = () => {
   document.getElementById('button_reset').addEventListener('click', () => { // リセット
     initEditorList(problems[user.current].item);
     initEditor(problems[user.current].area);
+    toastr['success'](`問題をリセットしました！`)
   });
   document.getElementById('button_next').addEventListener('click', onClickNext); // 次へ
   document.getElementById('button_replay').addEventListener('click', onClickReplay); // もう一度
