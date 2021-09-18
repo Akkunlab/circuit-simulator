@@ -89,7 +89,7 @@ const initEditor = item => {
   // ドラッグ設定
   $('.editor_item').draggable({
     snap: '.answer_contents_grid',
-    snapMode: 'inner',
+    snapMode: 'inner'
     /*stop: (event, ui) => {
       console.log(ui);
     }*/
