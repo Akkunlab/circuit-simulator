@@ -8,6 +8,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var apiAddUserRouter = require('./routes/apiAddUser');
+var apiGetUserRouter = require('./routes/apiGetUser');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(`/${process.env.ADMIN_URL}`, adminRouter);
 
 // api
 app.use('/api/adduser', apiAddUserRouter);
+app.use('/api/getuser', apiGetUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

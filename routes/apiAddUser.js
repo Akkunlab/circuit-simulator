@@ -13,6 +13,7 @@ router.post('/', function (req, res, next) {
     name: name,
     AC: 0,
     WA: 0,
+    current: 0
   };
 
   res.header('Content-Type', 'application/json; charset=utf-8')

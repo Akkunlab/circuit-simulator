@@ -2,18 +2,19 @@ import { firebaseConfig } from './config.js';
 
 /* 基本設定 */
 let db;
-let problemNumber = 0;
+let user = {
+  current: 0
+};
 
 /* 初期化 */
 const init = () => {
   initFirebase(); // firebase初期化
   initUser();
-  createProblem(problems[problemNumber]); // 問題1
 
   // ボタンイベント
   document.getElementById('button_reset').addEventListener('click', () => { // リセット
-    initEditorList(problems[problemNumber].item);
-    initEditor(problems[problemNumber].area);
+    initEditorList(problems[user.current].item);
+    initEditor(problems[user.current].area);
   });
   document.getElementById('button_help').addEventListener('click', onClickHelp); // ヘルプ
   document.getElementById('button_submit').addEventListener('click', checkAnswer); // 解答を確認
@@ -29,15 +30,20 @@ const initFirebase = () => {
 }
 
 /* ユーザ初期化 */
-const initUser = () => {
+const initUser = async() => {
   const cookieArray = getCookieArray();
 
   if (cookieArray.id) { // ある場合
+    const { data } = await post('/api/getuser', { id: cookieArray.id });
+    user = data;
+
     document.getElementById('editor').style.display = 'grid';
     document.getElementById('start_wrap').style.display = 'none';
   } else {
     initForm(); // フォーム生成
   }
+  
+  createProblem(problems[user.current]);
 }
 
 /* フォーム生成 */
@@ -187,15 +193,15 @@ const checkAnswer = () => {
     //console.log((rect.left + window.pageXOffset - unit0.x) / unitSize);
     //console.log(top, left);
 
-    //console.log(problem[problemNumber].answer, `${itemName}${top}${left}`);
+    //console.log(problem[user.current].answer, `${itemName}${top}${left}`);
     result += `${itemName}${top}${left}`;
   }
 
   console.log(result);
 
-  for (let j = 0; j < problems[problemNumber].answer.length; j++) {
-    console.log(result == problems[problemNumber].answer[j]);
-    if (result == problems[problemNumber].answer[j]) answer = true;
+  for (let j = 0; j < problems[user.current].answer.length; j++) {
+    console.log(result == problems[user.current].answer[j]);
+    if (result == problems[user.current].answer[j]) answer = true;
   }
 
   answer ?  isAnswerTrue() : isAnswerFalse();
@@ -206,8 +212,8 @@ const isAnswerTrue = () => {
   document.getElementById('modal_text').innerText = '正解！！！';
   document.getElementById('blocker2').classList.toggle('is-show');
   document.getElementById('modal').classList.toggle('is-show');
-  problemNumber++; // 次の番号
-  createProblem(problems[problemNumber]);
+  user.current++; // 次の番号
+  createProblem(problems[user.current]);
 };
 
 const isAnswerFalse = () => {
@@ -237,13 +243,13 @@ const events = {
 /* データをPOST */
 const post = async(url, data) => {
   const param  = {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json; charset=utf-8"
+      'Content-Type': 'application/json; charset=utf-8'
     },
     body: JSON.stringify(data)
   };
-  const response = await fetch("/api/adduser", param);
+  const response = await fetch(url, param);
 
   return response.json();
 }
