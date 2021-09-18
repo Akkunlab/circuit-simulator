@@ -313,3 +313,7 @@ button:hover {
   opacity: 1;
   visibility: visible;
 }
+
+.test_gif {
+  width: 50vw;
+}
