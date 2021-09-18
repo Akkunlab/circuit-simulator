@@ -10,6 +10,7 @@
   --button-color: #69a529;
   --button-hover-color: #84be46;
   --border-color: rgba(197, 197, 197, 0.5);
+  --section-border-radius: 20px;
 }
 
 html {
