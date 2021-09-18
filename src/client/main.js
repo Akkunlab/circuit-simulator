@@ -7,6 +7,7 @@ let cookieArray = [];
 /* 初期化 */
 const init = () => {
   initUser(); // ユーザ初期化
+  initToastr(); // トースト初期化
 
   // ボタンイベント
   document.getElementById('button_reset').addEventListener('click', () => { // リセット
@@ -28,7 +29,7 @@ const initUser = async() => {
   if (cookieArray.id) { // ある場合
     const { data } = await post('/api/getuser', { id: cookieArray.id });
     user = data;
-
+    toastr['success'](`おかえりなさい ${user.name}！`, 'ログイン完了')
     document.getElementById('editor').style.display = 'grid';
     document.getElementById('start_wrap').style.display = 'none';
   } else {
@@ -55,13 +56,14 @@ const initForm = () => {
   form.appendChild(div);
 
   label.setAttribute('for', 'number');
-  label.innerText = 'ニックネーム:';
+  label.innerText = 'ニックネーム';
   div.appendChild(label);
 
   input.setAttribute('type', 'text');
   input.setAttribute('id', 'start_number');
   input.setAttribute('class', 'number_input');
   input.setAttribute('name', 'start_number');
+  input.setAttribute('maxlength', 15);
   input.focus();
   div.appendChild(input);
 
@@ -80,8 +82,31 @@ const initForm = () => {
     
     const name = document.getElementById('start_number').value;
     const data = await post('/api/adduser', { name });
+    user.name = name;
+    toastr['success'](`ようこそ ${user.name}！`, 'ログイン完了')
     createCookie('id', data.id, 7); // Cookie作成
   })
+}
+
+/* トースト初期化 */
+const initToastr = () => {
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
 }
 
 /* エディタ初期化 */
@@ -123,7 +148,6 @@ const initEditorList = item => {
     div.setAttribute('name', item[i]);
     div.style.backgroundImage = `url(${getItemURL(item[i])})`;
     div.style.border = `solid 3px ${getItemColor(item[i])}`;
-    console.log(div.style.border);
     parentDiv.appendChild(div);
   }
 }
@@ -315,4 +339,4 @@ const createCookie = (name, value, days) => {
   document.cookie = `${name}=${value}; expires=${expire.toUTCString()}`;
 }
 
-init(); 
+init();

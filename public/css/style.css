@@ -79,7 +79,8 @@ button:hover {
 .start_wrap {
 	top: 70%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+  width: 600px;
+	transform: translate(-50%, -30%);
   background: rgba(212, 212, 212, 0.8);
   border-radius: 30px;
   position: absolute;
@@ -96,18 +97,20 @@ button:hover {
   align-items: center;
 }
 .number_wrap {
-  margin: 0 20px;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
 }
 .number_input {
   width: 300px;
-  padding: 5px;
+  padding: 5px 10px;
   font-size: 3rem;
   font-weight: 700;
+  border-radius: var(--item-border-radius);
+  box-shadow: none;
 }
 .start_button {
-  margin: 0 20px;
+  width: 200px;
+  margin-left: 20px;
   padding: 20px 50px;
   font-size: 3rem;
   font-weight: 700;
