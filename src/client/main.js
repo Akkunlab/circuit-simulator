@@ -190,32 +190,60 @@ const createProblem = data => {
 }
 
 /* アイテムのURL取得 */
-const getItemURL = name => {
+const getItemURL = (name, grow) => {
   let url;
 
-  switch (name) {
-    case 'R': url = 'editor_resistance.png'; break;
-    case 'Rr': url = 'editor_resistance_r.png'; break;
-    case 'V': url = 'editor_voltage.png'; break;
-    case 'Vr': url = 'editor_voltage_r.png'; break;
-    case 'L': url = 'editor_led.png'; break;
-    case 'Lr': url = 'editor_led_r.png'; break;
-    case 'light': url = 'editor_light.png'; break;
-    case 'lightr': url = 'editor_light_r.png'; break;
-    case 'S': url = 'editor_switch.png'; break;
-    case 'Sr': url = 'editor_switch_r.png'; break;
-    case 'l': url = 'editor_line.png'; break;
-    case 'lr': url = 'editor_line_r.png'; break;
-    case 'l1': url = 'editor_line_corner_1.png'; break;
-    case 'l2': url = 'editor_line_corner_2.png'; break;
-    case 'l3': url = 'editor_line_corner_3.png'; break;
-    case 'l4': url = 'editor_line_corner_4.png'; break;
-    case 'l5': url = 'editor_line_corner_5.png'; break;
-    case 'l6': url = 'editor_line_corner_6.png'; break;
-    case 'l7': url = 'editor_line_corner_7.png'; break;
-    case 'l8': url = 'editor_line_corner_8.png'; break;
-    default: break;
+  if (grow) {
+    switch (name) {
+      case 'R': url = 'editor_resistance_red.png'; break;
+      case 'Rr': url = 'editor_resistance_r_red.png'; break;
+      case 'V': url = 'editor_voltage_red.png'; break;
+      case 'Vr': url = 'editor_voltage_r_red.png'; break;
+      case 'L': url = 'editor_led_red.png'; break;
+      case 'Lr': url = 'editor_led_r_red.png'; break;
+      case 'light': url = 'editor_light_red.png'; break;
+      case 'lightr': url = 'editor_light_r_red.png'; break;
+      case 'S': url = 'editor_switch_red.png'; break;
+      case 'Sr': url = 'editor_switch_r_red.png'; break;
+      case 'l': url = 'editor_line_red.png'; break;
+      case 'lr': url = 'editor_line_r_red.png'; break;
+      case 'l1': url = 'editor_line_corner_1_red.png'; break;
+      case 'l2': url = 'editor_line_corner_2_red.png'; break;
+      case 'l3': url = 'editor_line_corner_3_red.png'; break;
+      case 'l4': url = 'editor_line_corner_4_red.png'; break;
+      case 'l5': url = 'editor_line_corner_5_red.png'; break;
+      case 'l6': url = 'editor_line_corner_6_red.png'; break;
+      case 'l7': url = 'editor_line_corner_7_red.png'; break;
+      case 'l8': url = 'editor_line_corner_8_red.png'; break;
+      default: break;
+    }
+  } else {
+    switch (name) {
+      case 'R': url = 'editor_resistance.png'; break;
+      case 'Rr': url = 'editor_resistance_r.png'; break;
+      case 'V': url = 'editor_voltage.png'; break;
+      case 'Vr': url = 'editor_voltage_r.png'; break;
+      case 'L': url = 'editor_led.png'; break;
+      case 'Lr': url = 'editor_led_r.png'; break;
+      case 'light': url = 'editor_light.png'; break;
+      case 'lightr': url = 'editor_light_r.png'; break;
+      case 'S': url = 'editor_switch.png'; break;
+      case 'Sr': url = 'editor_switch_r.png'; break;
+      case 'l': url = 'editor_line.png'; break;
+      case 'lr': url = 'editor_line_r.png'; break;
+      case 'l1': url = 'editor_line_corner_1.png'; break;
+      case 'l2': url = 'editor_line_corner_2.png'; break;
+      case 'l3': url = 'editor_line_corner_3.png'; break;
+      case 'l4': url = 'editor_line_corner_4.png'; break;
+      case 'l5': url = 'editor_line_corner_5.png'; break;
+      case 'l6': url = 'editor_line_corner_6.png'; break;
+      case 'l7': url = 'editor_line_corner_7.png'; break;
+      case 'l8': url = 'editor_line_corner_8.png'; break;
+      default: break;
+    }
   }
+
+
 
   return `../img/${url}`;
 }
@@ -278,7 +306,8 @@ const checkAnswer = () => {
   answer ?  isAnswerTrue() : isAnswerFalse();
 };
 
-const isAnswerTrue = async() => {
+const isAnswerTrue = async () => {
+  // growCircuit([12, 6, 0, 1, 2, 3, 4, 5, 11, 17, 23, 29, 28, 27, 26, 25, 24, 18], problems[user.current].item);
   document.getElementById('modal_text_AC').style.display = 'block';
   document.getElementById('modal_text_WA').style.display = 'none';
   document.getElementById('blocker').classList.toggle('is-show');
@@ -366,6 +395,25 @@ const createCookie = (name, value, days) => {
   const expire = new Date(); // 有効期限
   expire.setTime( expire.getTime() + 1000 * 3600 * 24 * days);
   document.cookie = `${name}=${value}; expires=${expire.toUTCString()}`;
+}
+
+/* 回路光らせる */
+const growCircuit = (array, item) => {
+  const answer = document.getElementsByClassName('answer_contents_grid');
+  const div2 = document.getElementById('answer_contents2');
+  let element;
+  for (let i = 0; i < array.length; i++) {
+    element = document.createElement('div');
+    element.setAttribute('class', 'answer_contents_grid2');
+    console.log(array.length, array);
+    if (item[i]) {
+      answer[i].classList.toggle('is-hidden');
+      console.log(getItemURL(item[i], 'grow'));
+      element.style.backgroundImage = `url(${getItemURL(item[i], 'grow')})`;
+    }
+
+    div2.appendChild(element);
+  }
 }
 
 init();
