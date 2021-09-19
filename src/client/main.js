@@ -20,7 +20,9 @@ const init = () => {
   document.getElementById('button_help').addEventListener('click', onClickHelp); // ヘルプ
   document.getElementById('button_submit').addEventListener('click', checkAnswer); // 解答を確認
   document.getElementById('blocker').addEventListener('click', events.clickBlocker); // ブロッカークリックイベント
+  document.getElementById('blocker2').addEventListener('click', events.clickBlocker2); // ブロッカークリックイベント
   document.getElementById('modal_close').addEventListener('click', events.clickBlocker); // モーダル閉クリックイベント
+  document.getElementById('tutorial_modal_close').addEventListener('click', events.clickBlocker2); // モーダル閉クリックイベント
 }
 
 /* ユーザ初期化 */
@@ -80,6 +82,8 @@ const initForm = () => {
   document.getElementById('start_button').addEventListener('click', async() => {
     document.getElementById('editor').style.display = 'grid';
     document.getElementById('start_wrap').style.display = 'none';
+    document.getElementById('tutorial_modal').classList.toggle('is-show');
+    document.getElementById('blocker2').classList.toggle('is-show');
     
     const name = document.getElementById('start_number').value;
     const data = await post('/api/adduser', { name });
@@ -292,6 +296,7 @@ const isAnswerFalse = () => {
 
 /* ヘルプ */
 const onClickHelp = () => {
+  document.getElementById('help').classList.toggle('is-show');
 }
 
 /* 次へ */
@@ -315,6 +320,12 @@ const events = {
     if (e.target.tagName === 'DIV' || e.target.tagName === 'SPAN') {
       document.getElementById('blocker').classList.toggle('is-show');
       document.getElementById('modal').classList.toggle('is-show');
+    }
+  },
+  clickBlocker2(e) { // ブロッカークリック時
+    if (e.target.tagName === 'DIV' || e.target.tagName === 'SPAN') {
+      document.getElementById('blocker2').classList.toggle('is-show');
+      document.getElementById('tutorial_modal').classList.toggle('is-show');
     }
   }
 }

@@ -242,7 +242,7 @@ button:hover {
 /*------------------------------------
   Blocker
 ------------------------------------*/
-.blocker {
+.blocker, .blocker2 {
   top: 0;
   left: 0;
   width: 100vw;
@@ -266,6 +266,28 @@ button:hover {
   top: 50%;
   left: 50%;
   z-index: 100001;
+}
+.tutorial_modal {
+  width: 50%;
+  height: 58%;
+  padding: 30px;
+  text-align: center;
+  border-radius: var(--section-border-radius);
+  background: var(--item-color);
+  box-shadow: 0 1px 2px 0 var(--border-color);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100001;
+}
+.tutorial_gif {
+  width: 90%;
+}
+.tutorial_text {
+  font-size: 2em;
 }
 .modal_alert {
   font-size: 2em;
@@ -308,20 +330,15 @@ button:hover {
 }
 
 /* animation */
-.blocker, .modal {
+.blocker, .blocker2, .modal, .tutorial_modal {
   opacity: 0;
   visibility: hidden;
   transition: .3s;
 }
-.blocker.is-show, .modal.is-show {  
+.blocker.is-show, .blocker2.is-show, .modal.is-show, .tutorial_modal.is-show {  
   opacity: 1;
   visibility: visible;
 }
-
-.test_gif {
-  width: 50vw;
-}
-
 
 /*------------------------------------
   Share
@@ -428,4 +445,39 @@ button:hover {
 [tooltip]:hover:after {
   visibility: visible;
   opacity: 1;
+}
+
+/* help */
+.help {
+  padding: 10px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  vertical-align: middle;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s;
+  background: #5cafe6;
+  border-radius: var(--item-border-radius);
+}
+.help.is-show {
+  opacity: 1;
+  visibility: visible;
+}
+.help_item {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 10px;
+}
+.help_img {
+  width: 64px;
+  padding: 5px;
+  border-radius: var(--item-border-radius);
+}
+.help_text {
+  font-size: 1.2em;
+  line-height: 64px;
+  padding: 5px;
+  margin-right: 12px;
 }

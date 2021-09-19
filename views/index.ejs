@@ -19,6 +19,16 @@
       <main class="main">
 
         <div id="start_wrap" class="start_wrap"></div>
+
+        <div class="blocker2" id="blocker2"></div>
+        <div class="tutorial_modal" id="tutorial_modal">
+          <span class="modal_close" id="tutorial_modal_close">✖️</span>
+          <div class="modal_content">
+            <img class="tutorial_gif" id="tutorial_gif" src="/img/tutorial.gif">
+            <p class="tutorial_text">部品をアイテムリストから回路図へドラッグ・ドロップ</p>
+          </div>
+        </div>
+
         <div id="editor" class="editor">
 
           <div class="editor_side">
@@ -28,6 +38,15 @@
               <div id="editor_item_list" class="editor_item_list"></div>
             </div>
             <div id="menu" class="menu">
+              <div id="help" class="help">
+                <div class="help_item">
+                  <img class="help_img" src="/img/editor_voltage.png" alt="電源"><span class="help_text">電源</span>
+                  <img class="help_img" src="/img/editor_resistance.png" alt="抵抗"><span class="help_text">抵抗</span>
+                  <img class="help_img" src="/img/editor_led.png" alt="LED"><span class="help_text">LED</span>
+                  <img class="help_img" src="/img/editor_light.png" alt="電球"><span class="help_text">電球</span>
+                  <img class="help_img" src="/img/editor_switch.png" alt="スイッチ"><span class="help_text">スイッチ</span>
+                </div>
+              </div>
               <button id="button_help" class="button_help">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
               </button>
