@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>[A2103] 電子工作入門</title>
+    <title>Eサーキット</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="icon" type="image/png" href="/img/favicon.png" sizes="16x16 24x24 32x32 48x48 64x64" />
 </head>
 
 <body>
@@ -18,7 +20,14 @@
 
         <div id="start_wrap" class="start_wrap"></div>
 
-        <div id="blocker" class="blocker"><div class="blocker_contents">前のスクリーンを見て<br>説明を聞いてください</div></div>
+        <div class="blocker2" id="blocker2"></div>
+        <div class="tutorial_modal" id="tutorial_modal">
+          <span class="modal_close" id="tutorial_modal_close">✖️</span>
+          <div class="modal_content">
+            <img class="tutorial_gif" id="tutorial_gif" src="/img/tutorial.gif">
+            <p class="tutorial_text">部品をアイテムリストから回路図へドラッグ・ドロップ</p>
+          </div>
+        </div>
 
         <div id="editor" class="editor">
 
@@ -29,18 +38,51 @@
               <div id="editor_item_list" class="editor_item_list"></div>
             </div>
             <div id="menu" class="menu">
-              <button id="button_help" class="button_help">ヘルプ</button>
-              <button id="button_reset" class="button_reset">リセット</button>
+              <div id="help" class="help">
+                <div class="help_item">
+                  <img class="help_img" src="/img/editor_voltage.png" alt="電源"><span class="help_text">電源</span>
+                  <img class="help_img" src="/img/editor_resistance.png" alt="抵抗"><span class="help_text">抵抗</span>
+                  <img class="help_img" src="/img/editor_led.png" alt="LED"><span class="help_text">LED</span>
+                  <img class="help_img" src="/img/editor_light.png" alt="電球"><span class="help_text">電球</span>
+                  <img class="help_img" src="/img/editor_switch.png" alt="スイッチ"><span class="help_text">スイッチ</span>
+                </div>
+              </div>
+              <button id="button_help" class="button_help">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg>
+              </button>
+              <button id="button_reset" class="button_reset">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+              </button>
             </div>
           </div>
           </div>
 
-          <div class="blocker2" id="blocker2"></div>
+          <div class="blocker" id="blocker"></div>
           <div class="modal" id="modal">
             <span class="modal_close" id="modal_close">✖️</span>
-            <h3 class="modal_title" id="modal_title"></h3>
-            <div class="modal_content" id="modal_content"></div>
-            <div id="modal_alert" class="modal_alert"><p id="modal_text"></p></div>
+            <div class="modal_content" id="modal_content">
+              <div id="modal_alert" class="modal_alert">
+                <p class="modal_text_AC" id="modal_text_AC">正解！</p>
+                <p class="modal_text_WA" id="modal_text_WA"><br><br>不正解...</p>
+              </div>
+              <!-- <div class="fabs">
+                <a href="https://www.instagram.com/" target="_blank" class="fab pink" tooltip="Instagram"><i class="sec zmdi zmdi-google-plus animated"></i></a>
+              
+                <a href="https://twitter.com" target="_blank" class="fab light-blue" tooltip="Twitter"><i class="sec zmdi zmdi-twitter animated"></i></a>
+              
+                <a href="https://facebook.com" target="_blank" class="fab indigo" tooltip="Facebook"><i class="sec zmdi zmdi-facebook animated"></i></a>
+              
+                <a target="_blank" class="fab red" tooltip="Share"><i class="prime zmdi animated rotateIn zmdi-plus"></i></a>
+              </div> -->
+              <div class="modal_button" id="modal_button">
+                <button class="button_replay" id="button_replay">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>
+                </button>
+                <button class="button_next" id="button_next">
+                  <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><polygon points="6.23,20.23 8,22 18,12 8,2 6.23,3.77 14.46,12"/></g></svg>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="editor_main">
@@ -51,16 +93,10 @@
               </div>
               <div class="editor_main_area_answer">
                 <div id="answer_contents" class="editor_main_area_answer_contents"></div>
-                <button id="button_submit" class="button_submit">完成</button>
-                <button id="problem2" class="button_next" onclick="problemBlocker(2)">次の問題へ</button>
-                <button id="problem3" class="button_next" onclick="problemBlocker(3)">次の問題へ</button>
-                <button id="problem4" class="button_next" onclick="problemBlocker(4)">次の問題へ</button>
-                <button id="problem5" class="button_next" onclick="problemBlocker(5)">次の問題へ</button>
-                <button id="problem6" class="button_next" onclick="problemBlocker(6)">次の問題へ</button>
-                <button id="problem7" class="button_next" onclick="problemBlocker(7)">次の問題へ</button>
-                <button id="problem8" class="button_next" onclick="problemBlocker(8)">次の問題へ</button>
-                <button id="problem9" class="button_next" onclick="problemBlocker(9)">次の問題へ</button>
-                <button id="problem10" class="button_next" onclick="problemBlocker(10)">次の問題へ</button>
+                <div id="answer_contents2" class="editor_main_area_answer_contents2"></div>
+                <button id="button_submit" class="button_submit">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                </button>
               </div>
             </div>
           </div>
@@ -77,6 +113,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-analytics.js"></script>
     <script src="https://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>const problems = JSON.parse('<%- firebaseData %>');</script>
     <script type="module" src="/js/main.js"></script>
 
 </body>
